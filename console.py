@@ -14,7 +14,11 @@ from models.review import Review
 
 
 def parse_input(input_string):
-    matched_group = re.search(r"\{(.*?)\}", input_string) or re.search(r"\[(.*?)\]", input_string)
+    """ Defines the parse input with input string as args"""
+
+    matched_group = re.search(r"\{(.*?)\}",
+                              input_string) or re.search(r"\[(.*?)\]",
+                                                         input_string)
     if matched_group is None:
         return [item.strip(",") for item in split(input_string)]
     else:
@@ -44,9 +48,11 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """Do nothing upon receiving an empty line."""
+
         pass
 
     def default(self, arg):
+
         """Default behavior for cmd module when input is invalid"""
         command_dict = {
             "all": self.do_all,
@@ -69,9 +75,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_quit(self, arg):
         """Quit command to exit the program."""
+
         return True
 
     def do_EOF(self, arg):
+
         """EOF signal to exit the program."""
         print("")
         return True
@@ -80,6 +88,7 @@ class HBNBCommand(cmd.Cmd):
         """Usage: create <class>
         Create a new class instance and print its id.
         """
+
         arg_list = parse_input(arg)
         if len(arg_list) == 0:
             print("** class name missing **")
@@ -93,6 +102,7 @@ class HBNBCommand(cmd.Cmd):
         """Usage: show <class> <id> or <class>.show(<id>)
         Display the string representation of a class instance of a given id.
         """
+
         arg_list = parse_input(arg)
         obj_dict = storage.all()
         if len(arg_list) == 0:
@@ -107,6 +117,7 @@ class HBNBCommand(cmd.Cmd):
             print(obj_dict["{}.{}".format(arg_list[0], arg_list[1])])
 
     def do_destroy(self, arg):
+
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
         Delete a class instance of a given id."""
         arg_list = parse_input(arg)
@@ -127,8 +138,10 @@ class HBNBCommand(cmd.Cmd):
         """Usage: all or all <class> or <class>.all()
         Display string representations of all instances of a given class.
         If no class is specified, displays all instantiated objects."""
+
         arg_list = parse_input(arg)
-        if len(arg_list) > 0 and arg_list[0] not in HBNBCommand.__valid_classes:
+        lenCheck = len(arg_list) > 0
+        if lenCheck and arg_list[0] not in HBNBCommand.__valid_classes:
             print("** class doesn't exist **")
         else:
             obj_list = []
@@ -142,6 +155,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, arg):
         """Usage: count <class> or <class>.count()
         Retrieve the number of instances of a given class."""
+
         arg_list = parse_input(arg)
         count = 0
         for obj in storage.all().values():
@@ -155,6 +169,7 @@ class HBNBCommand(cmd.Cmd):
        <class>.update(<id>, <dictionary>)
         Update a class instance of a given id by adding or updating
         a given attribute key/value pair or dictionary."""
+
         arg_list = parse_input(arg)
         obj_dict = storage.all()
 
@@ -197,7 +212,5 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     obj.__dict__[k] = v
         storage.save()
-
-
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

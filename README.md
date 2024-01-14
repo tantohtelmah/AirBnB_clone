@@ -1,1 +1,2 @@
-0x00. AirBnB clone - The console
+Pre-project directory for the airbnb project
+e
